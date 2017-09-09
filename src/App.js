@@ -2,7 +2,9 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import {Route} from 'react-router-dom'
+import { Link }  from 'react-router-dom'
 import Shelf from './Shelf'
+import Search from './Search'
 
 class BooksApp extends React.Component {
 
@@ -25,7 +27,7 @@ class BooksApp extends React.Component {
       this.setState((state) => ({
         shelves : this.state.shelves
       }))     
-  
+
   }
 
   componentDidMount() {
@@ -55,6 +57,10 @@ class BooksApp extends React.Component {
             </div>
           )}
         />
+
+      
+        <Link className='open-search open-search-link' to='/search'>Add a book</Link>
+        <Route path="/search" component={Search}/>
       </div>
     )
   }
