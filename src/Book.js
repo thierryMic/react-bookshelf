@@ -1,14 +1,26 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Shelfer from './Shelfer'
 
 
 class Book extends Component {
 	
 	static propTypes = {		
-		book: PropTypes.object.isRequired
+		book: PropTypes.object.isRequired,
+		onChange: PropTypes.func.isRequired
 	}
-	
-	state = {
+
+
+  // Request all books to initialise state
+  componentDidMount() {
+  	this.setState((state) => ({
+  		shelf:this.props.book.shelf
+  	}))
+ }
+
+	changeShelf = (newShelf) => {
+		this.props.book.shelf = newShelf
+  	this.props.onChange()
 	}
 
 
@@ -22,10 +34,14 @@ class Book extends Component {
 	          				width: 128, 
 	          				height: 193, 
 	          				backgroundImage: `url(${book.imageLinks.thumbnail})`}}/>
-
-	        </div>
-	        <div className="book-title">{book.title}</div>
-	        <div className="book-authors">{book.authors[0]}</div>
+      				<Shelfer 
+      					book={book}
+      					onChangeShelf={this.changeShelf}
+      				/>
+	        	</div>
+	        	
+	        	<div className="book-title">{book.title}</div>
+	        	<div className="book-authors">{book.authors[0]}</div>
 	      </div>	            
 	  )
 	}

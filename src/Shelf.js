@@ -9,16 +9,13 @@ import Book from './Book'
 
 class Shelf extends Component {
 	static propTypes = {		
-		shelf: PropTypes.object.isRequired
-	}
-	
-	state = {
-		query: ''
+		shelf: PropTypes.object.isRequired,
+		onChange: PropTypes.func.isRequired
 	}
 
 
 	render() {
-		const {shelf} = this.props
+		const {shelf, onChange} = this.props
 		return (
 			<div className="bookshelf">
 				<h2 className="bookshelf-title">{shelf.title}</h2>
@@ -28,6 +25,7 @@ class Shelf extends Component {
 		            <li key={book.id}>
 		              	<Book 
 		              		book={book}
+		              		onChange={onChange}
 		              	/>
 		            </li>		          		
 	          	))}

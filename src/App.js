@@ -7,6 +7,7 @@ import Shelf from './Shelf'
 class BooksApp extends React.Component {
 
   state = {
+    books:[],
 
     shelves: [
       {id:'currentlyReading', title:'Currently reading', books:[]},
@@ -16,27 +17,25 @@ class BooksApp extends React.Component {
 
   }
 
-  stockShelves = (books) => {
+  stockShelves = () => {
       this.state.shelves.map((shelf) => (        
-          shelf.books = books.filter((book) => book.shelf===shelf.id)
+          shelf.books = this.state.books.filter((book) => book.shelf===shelf.id)
       ))
 
-      // setting state in this manner is slower than using forceUodate
-      // this.setState((state) => ({
-      //   shelves : this.state.shelves
-      // }))      
+      this.setState((state) => ({
+        shelves : this.state.shelves
+      }))     
+  
   }
 
-
-  // Request all books to initialise state
   componentDidMount() {
     // request books from server
     BooksAPI.getAll().then((books) => {
-      this.stockShelves(books)
-      this.forceUpdate()  
-    })
+      this.setState({books})
+    }).then(this.stockShelves)
 
- }
+  }
+
 
   
   render() {      
@@ -50,6 +49,7 @@ class BooksApp extends React.Component {
                 <Shelf
                   key={shelf.id}
                   shelf={shelf}
+                  onChange={this.stockShelves}
                 />
               ))}
             </div>
