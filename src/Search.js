@@ -4,24 +4,26 @@ import { Link }  from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Shelf from './Shelf'
 import bookIndex from './helpers'
-
+// https://schier.co/blog/2014/12/08/wait-for-user-to-stop-typing-using-javascript.html
 class Search extends Component {
 	static propTypes = {		
 		onAddBook: PropTypes.func.isRequired,
 		myBooks: PropTypes.array.isRequired
 	}
 
+	timeout = null
+
 	state = {
 		query: '',
 		shelf: {id:'none', title:'', books:[]},
 	}
 
-	updateQuery = (query) => {
-		this.setState({ query: query })
+
+	requestResults = (query) => {		
 
 		let newShelf = Object.assign({}, this.state.shelf)
-		newShelf.books = []
-				
+		newShelf.books = []	
+
 		BooksAPI.search(query).then((results) => {      	      
       if (results && !results.error) {
 	      newShelf.books = results		      
@@ -36,6 +38,16 @@ class Search extends Component {
 		  }
 		  this.setState({shelf:newShelf})	
 		})
+		
+	}
+
+
+	updateQuery = (query) => {
+		this.setState({ query: query })
+		clearTimeout(this.timeout);
+		this.timeout = setTimeout(() => {
+			this.requestResults(query)
+		}, 500)
 	}
   
   onChange = (book) => {  	
