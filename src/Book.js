@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Shelfer from './Shelfer'
-
+import * as BooksAPI from './BooksAPI'
 
 class Book extends Component {
 	
@@ -20,6 +20,7 @@ class Book extends Component {
 
 	changeShelf = (newShelf) => {
 		this.props.book.shelf = newShelf
+		BooksAPI.update(this.props.book, newShelf)
   	this.props.onChange(this.props.book)
 	}
 

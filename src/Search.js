@@ -20,23 +20,26 @@ class Search extends Component {
 		this.setState({ query: query })
 
 		let newShelf = Object.assign({}, this.state.shelf)
-
-		BooksAPI.search(query).then((results) => {         
-      newShelf.books = results
-
-      results.forEach((book) => {
-      	let i = bookIndex(this.props.myBooks, book)
-      	if(i > -1) {
-      		book.shelf = this.props.myBooks[i].shelf
-      	}
-      	else {
-      		book.shelf = 'none'
-      	}
-      })
-
-	    this.setState({shelf:newShelf}) 
-		})
-
+		newShelf.books = []
+		
+		if (query !== '') {
+			BooksAPI.search(query).then((results) => {      	      
+	      if (!results.error) {
+		      newShelf.books = results		      
+		      results.forEach((book) => {
+		      	let i = bookIndex(this.props.myBooks, book)
+		      	if(i > -1) {
+		      		book.shelf = this.props.myBooks[i].shelf
+		      	} else {
+		      		book.shelf = 'none'
+		      	}
+		      })		    
+			  }
+			  this.setState({shelf:newShelf})	
+			})
+		} else {
+				this.setState({shelf:newShelf})	
+		}
 	}
   
   onChange = (book) => {  	
@@ -53,32 +56,25 @@ class Search extends Component {
 		      	<Link className="close-search" to='/'></Link>
 
 		        <div className="search-books-input-wrapper">
-
 		          <input
 		          	type="text" 
 		          	placeholder="Search by title or author"
 								value={this.state.query}
 								onChange={(event) => this.updateQuery(event.target.value)}		          	
 		          />
-
 		        </div>
 
-		        {shelf.books.length > 0 && (
-	            <div>            
-	              <Shelf
-	                key={shelf.id}
-	                shelf={shelf}
-	                onChange={this.onChange}
-	              />
-	            </div>     
-		        )}
-
-
 		      </div>
 
-		      <div className="search-books-results">
-		        <ol className="books-grid"></ol>
-		      </div>
+	      	{shelf.books.length > 0 && (
+            <div className="search-books-results">            
+              <Shelf
+                key={shelf.id}
+                shelf={shelf}
+                onChange={this.onChange}
+              />
+            </div>     
+	        )}
 
 		    </div>
 		)

@@ -30,13 +30,24 @@ class BooksApp extends React.Component {
       this.setState({shelves:newShelves})
   }
 
-
   addBook = (book) => {
-    if (bookIndex(this.state.books, book)===-1){      
-      let newBooks = this.state.books
-      newBooks.push(book)
+    let update = false
+    let newBooks = this.state.books
+    let i = bookIndex(newBooks, book)
+
+    if (i===-1){            
+      newBooks.push(book)      
+      update = true 
+    } else {
+      if (newBooks[i].shelf !== book.shelf) {
+        newBooks[i].shelf = book.shelf
+        update = true
+      }
+    }
+    
+    if (update) {
       this.setState({books:newBooks})
-      this.stockShelves()
+      // this.stockShelves()
     }
   }
 
@@ -48,7 +59,7 @@ class BooksApp extends React.Component {
 
   }
 
-  
+
   render() {      
     
     return (      
