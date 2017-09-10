@@ -13,19 +13,19 @@ class Search extends Component {
 
 	state = {
 		query: '',
-		shelf: {id:'none', title:'', books:[]},
+		shelf: {id:'none', title:''},
+		books: []
 	}
 
 	updateQuery = (query) => {
 		this.setState({ query: query })
 
-		let newShelf = Object.assign({}, this.state.shelf)
-		newShelf.books = []
+		let newBooks = []
 		
 		if (query !== '') {
 			BooksAPI.search(query).then((results) => {      	      
 	      if (!results.error) {
-		      newShelf.books = results		      
+		      newBooks = results		      
 		      results.forEach((book) => {
 		      	let i = bookIndex(this.props.myBooks, book)
 		      	if(i > -1) {
@@ -35,10 +35,10 @@ class Search extends Component {
 		      	}
 		      })		    
 			  }
-			  this.setState({shelf:newShelf})	
+			  this.setState({books:newBooks})	
 			})
 		} else {
-				this.setState({shelf:newShelf})	
+				this.setState({books:newBooks})	
 		}
 	}
   
@@ -66,11 +66,12 @@ class Search extends Component {
 
 		      </div>
 
-	      	{shelf.books.length > 0 && (
+	      	{this.state.books.length > 0 && (
             <div className="search-books-results">            
               <Shelf
                 key={shelf.id}
                 shelf={shelf}
+                books={this.state.books}
                 onChange={this.onChange}
               />
             </div>     

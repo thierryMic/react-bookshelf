@@ -13,9 +13,9 @@ class BooksApp extends React.Component {
     books:[],
 
     shelves: [
-      {id:'currentlyReading', title:'Currently reading', books:[]},
-      {id:'wantToRead', title:'Want to read', books:[]},
-      {id:'read', title:'Read', books:[]},
+      {id:'currentlyReading', title:'Currently reading'},
+      {id:'wantToRead', title:'Want to read'},
+      {id:'read', title:'Read'},
     ]
 
   }
@@ -23,11 +23,12 @@ class BooksApp extends React.Component {
   stockShelves = () => {
       let newShelves = Object.assign([], this.state.shelves)
 
-      newShelves.map((shelf) => (
-          shelf.books = this.state.books.filter((book) => book.shelf===shelf.id)          
-      ))
+      // newShelves.map((shelf) => (
+      //     shelf.books = this.state.books.filter((book) => book.shelf===shelf.id)          
+      // ))
 
       this.setState({shelves:newShelves})
+      // this.forceUpdate()
   }
 
   addBook = (book) => {
@@ -47,7 +48,7 @@ class BooksApp extends React.Component {
     
     if (update) {
       this.setState({books:newBooks})
-      // this.stockShelves()
+      this.stockShelves()
     }
   }
 
@@ -71,6 +72,7 @@ class BooksApp extends React.Component {
                 <Shelf
                   key={shelf.id}
                   shelf={shelf}
+                  books={this.state.books}
                   onChange={this.stockShelves}
                 />
               ))}

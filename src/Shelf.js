@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import escapeRegExp from 'escape-string-regexp'
-// import sortBy from 'sort-by'
-// import { Link }  from 'react-router-dom'
 import Book from './Book'
 
 
 
 class Shelf extends Component {
 	static propTypes = {		
+		books: PropTypes.array.isRequired,
 		shelf: PropTypes.object.isRequired,
 		onChange: PropTypes.func.isRequired
 	}
@@ -21,13 +19,15 @@ class Shelf extends Component {
 				<h2 className="bookshelf-title">{shelf.title}</h2>
 	        <div className="bookshelf-books">
 	          <ol className="books-grid">
-	          	{this.props.shelf.books.map((book) => (
-		            <li key={book.id}>
-		              	<Book 
-		              		book={book}
-		              		onChange={onChange}
-		              	/>
-		            </li>		          		
+	          	{this.props.books.map((book) => (
+		            book.shelf === shelf.id  && (
+			            <li key={book.id}>
+			              	<Book 
+			              		book={book}
+			              		onChange={onChange}
+			              	/>
+			            </li>
+			            )		          	
 	          	))}
             </ol>
           </div>
