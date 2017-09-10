@@ -47,7 +47,7 @@ class BooksApp extends React.Component {
     
     if (update) {
       this.setState({books:newBooks})
-      // this.stockShelves()
+      this.stockShelves()
     }
   }
 
