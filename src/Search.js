@@ -21,25 +21,21 @@ class Search extends Component {
 
 		let newShelf = Object.assign({}, this.state.shelf)
 		newShelf.books = []
-		
-		if (query !== '') {
-			BooksAPI.search(query).then((results) => {      	      
-	      if (!results.error) {
-		      newShelf.books = results		      
-		      results.forEach((book) => {
-		      	let i = bookIndex(this.props.myBooks, book)
-		      	if(i > -1) {
-		      		book.shelf = this.props.myBooks[i].shelf
-		      	} else {
-		      		book.shelf = 'none'
-		      	}
-		      })		    
-			  }
-			  this.setState({shelf:newShelf})	
-			})
-		} else {
-				this.setState({shelf:newShelf})	
-		}
+				
+		BooksAPI.search(query).then((results) => {      	      
+      if (results && !results.error) {
+	      newShelf.books = results		      
+	      results.forEach((book) => {
+	      	let i = bookIndex(this.props.myBooks, book)
+	      	if(i > -1) {
+	      		book.shelf = this.props.myBooks[i].shelf
+	      	} else {
+	      		book.shelf = 'none'
+	      	}
+	      })		    
+		  }
+		  this.setState({shelf:newShelf})	
+		})
 	}
   
   onChange = (book) => {  	

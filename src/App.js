@@ -60,8 +60,7 @@ class BooksApp extends React.Component {
   }
 
 
-  render() {      
-    
+  render() {          
     return (      
       // Render shelves
       <div className="app">
