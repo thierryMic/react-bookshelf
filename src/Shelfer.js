@@ -12,6 +12,7 @@ class Shelfer extends Component {
 	handleChange = (e) => {
     this.props.onChangeShelf(e.target.value)
     e.preventDefault();
+    this.setState({value:e.target.value})
   }
 
   state = {
