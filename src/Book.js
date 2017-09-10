@@ -16,11 +16,11 @@ class Book extends Component {
   	this.setState((state) => ({
   		shelf:this.props.book.shelf
   	}))
- }
+  }
 
 	changeShelf = (newShelf) => {
 		this.props.book.shelf = newShelf
-  	this.props.onChange()
+  	this.props.onChange(this.props.book)
 	}
 
 
@@ -41,7 +41,9 @@ class Book extends Component {
 	        	</div>
 	        	
 	        	<div className="book-title">{book.title}</div>
-	        	<div className="book-authors">{book.authors[0]}</div>
+	        	{book.authors && (
+	        		<div className="book-authors">{book.authors[0]}</div>
+	        	)}
 	      </div>	            
 	  )
 	}

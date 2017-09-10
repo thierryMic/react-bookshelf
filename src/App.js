@@ -5,6 +5,7 @@ import {Route} from 'react-router-dom'
 import { Link }  from 'react-router-dom'
 import Shelf from './Shelf'
 import Search from './Search'
+import bookIndex from './helpers'
 
 class BooksApp extends React.Component {
 
@@ -20,14 +21,23 @@ class BooksApp extends React.Component {
   }
 
   stockShelves = () => {
-      this.state.shelves.map((shelf) => (        
-          shelf.books = this.state.books.filter((book) => book.shelf===shelf.id)
+      let newShelves = Object.assign([], this.state.shelves)
+
+      newShelves.map((shelf) => (
+          shelf.books = this.state.books.filter((book) => book.shelf===shelf.id)          
       ))
 
-      this.setState((state) => ({
-        shelves : this.state.shelves
-      }))     
+      this.setState({shelves:newShelves})
+  }
 
+
+  addBook = (book) => {
+    if (bookIndex(this.state.books, book)===-1){      
+      let newBooks = this.state.books
+      newBooks.push(book)
+      this.setState({books:newBooks})
+      this.stockShelves()
+    }
   }
 
   componentDidMount() {
@@ -37,7 +47,6 @@ class BooksApp extends React.Component {
     }).then(this.stockShelves)
 
   }
-
 
   
   render() {      
@@ -54,14 +63,20 @@ class BooksApp extends React.Component {
                   onChange={this.stockShelves}
                 />
               ))}
+              <Link className='open-search open-search-link' to='/search'>Add a book</Link>
             </div>
           )}
         />
 
-      
-        <Link className='open-search open-search-link' to='/search'>Add a book</Link>
-        <Route path="/search" component={Search}/>
+        <Route exact path="/search" render={() => (              
+          <Search 
+            onAddBook={this.addBook}
+            myBooks={this.state.books}
+          />
+          )}
+        />      
       </div>
+
     )
   }
 }

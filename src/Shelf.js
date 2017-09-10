@@ -29,7 +29,6 @@ class Shelf extends Component {
 		              	/>
 		            </li>		          		
 	          	))}
-
             </ol>
           </div>
         </div>	    
