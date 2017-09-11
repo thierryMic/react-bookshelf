@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 import Shelfer from './Shelfer'
+import Rater from './Rater'
 
 
 /**
@@ -27,6 +28,10 @@ class Book extends Component {
   	this.props.onChange(this.props.book)
 	}
 
+	changeRating = (newRating) => {
+		this.props.book.rating = newRating
+		BooksAPI.rate(this.props.book, newRating)
+	}
 
 	/**
 	* @description renders a book object
@@ -49,6 +54,10 @@ class Book extends Component {
 
 	        	<div className="book-title">{book.title}</div>
 	        	{book.authors && (<div className="book-authors">{book.authors[0]}</div>)}
+
+	        	<Rater
+	        		onChangeRating={this.changeRating}
+	        	/>
 	      </div>
 	  )
 	}

@@ -6,6 +6,7 @@ import './App.css'
 import Shelf from './Shelf'
 import Search from './Search'
 import bookIndex from './helpers'
+import Rater from './Rater'
 
 
 /**
@@ -117,7 +118,12 @@ class BooksApp extends React.Component {
           />
           )}
         />
+
+        <Route exact path="/rate" component={Rater} />
       </div>
+
+
+
 
     )
   }

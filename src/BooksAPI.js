@@ -42,3 +42,15 @@ export const search = (query, maxResults) =>
     body: JSON.stringify({ query, maxResults })
   }).then(res => res.json())
     .then(data => data.books)
+
+
+
+export const rate = (book, rating) =>
+  fetch(`${api}/books/${book.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ rating })
+  }).then(res => res.json())
