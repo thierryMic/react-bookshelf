@@ -10,8 +10,6 @@ import Star from './Star'
 class Rater extends Component {
 
 	changeRating = (e) => {
-    console.log(e)
-    console.log(e.target)
     const rating = e.target.value
   }
 
@@ -47,10 +45,11 @@ class Rater extends Component {
       const stars = []
 
       for (let i = 1; i < 6; i++) {
-      	stars.push({active:false, value: i})
+      	let isActive = i <= this.props.rating
+      	stars.push({active:false, value: i, active:isActive})
       }
 
-      this.setState({stars})
+      this.setState({stars:stars, rating:this.props.rating})
   }
 
 

@@ -181,7 +181,7 @@ body, .app {
 .star {
     font-size: 1em;
     color: grey;
-    /*font-weight: bold;*/
+    cursor: default;
 }
 
 .star-selected {

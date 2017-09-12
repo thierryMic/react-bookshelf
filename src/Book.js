@@ -29,8 +29,9 @@ class Book extends Component {
 	}
 
 	changeRating = (newRating) => {
-		this.props.book.rating = newRating
-		BooksAPI.rate(this.props.book, newRating)
+		const {book} = this.props
+		book.rating = newRating
+		localStorage.setItem(book.id,newRating)
 	}
 
 	/**
@@ -38,6 +39,13 @@ class Book extends Component {
 	*/
 	render() {
 		const {book} = this.props
+
+
+	 console.log(book.id)
+	 console.log(localStorage.getItem(book.id))
+
+
+
 		return (
 	      <div className="book">
 	        <div className="book-top">
@@ -55,8 +63,10 @@ class Book extends Component {
 	        	<div className="book-title">{book.title}</div>
 	        	{book.authors && (<div className="book-authors">{book.authors[0]}</div>)}
 
+
 	        	<Rater
 	        		onChangeRating={this.changeRating}
+	        		rating={localStorage.getItem(book.id) || 0}
 	        	/>
 	      </div>
 	  )
