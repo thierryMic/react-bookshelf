@@ -28,6 +28,11 @@ class Book extends Component {
   	this.props.onChange(this.props.book)
 	}
 
+	/**
+	* @description changes the rating of a books
+	* @description persists the rating to the browser's localStorage
+	* @param {string} newRating - the user's rating of the book
+	*/
 	changeRating = (newRating) => {
 		const {book} = this.props
 		book.rating = newRating
@@ -39,12 +44,6 @@ class Book extends Component {
 	*/
 	render() {
 		const {book} = this.props
-
-
-	 console.log(book.id)
-	 console.log(localStorage.getItem(book.id))
-
-
 
 		return (
 	      <div className="book">
@@ -66,7 +65,7 @@ class Book extends Component {
 
 	        	<Rater
 	        		onChangeRating={this.changeRating}
-	        		rating={localStorage.getItem(book.id) || 0}
+	        		rating={parseInt(localStorage.getItem(book.id),10) || 0}
 	        	/>
 	      </div>
 	  )
